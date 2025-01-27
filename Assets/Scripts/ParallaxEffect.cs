@@ -2,26 +2,35 @@ using UnityEngine;
 
 public class ParallaxEffect : MonoBehaviour
 {
-    public Transform player; // O jogador
-    public float parallaxFactor; // Fator de paralaxe para cada layer
+    public Transform[] layers; // Array de camadas (camadas de fundo)
+    public float parallaxFactor = 0.5f; // Fator de paralaxe, ajustável no Inspector
+    public float smoothing = 1f; // Suavização do movimento, ajustável no Inspector
 
-    private Vector3 previousPlayerPosition;
+    private Vector3 previousCameraPosition; // Posição da câmera anterior
 
     void Start()
     {
-        // Armazena a posição inicial do jogador
-        previousPlayerPosition = player.position;
+        // Inicializa a posição da câmera anterior
+        previousCameraPosition = Camera.main.transform.position;
     }
 
     void Update()
     {
-        // Calcula o deslocamento do jogador
-        Vector3 deltaPosition = player.position - previousPlayerPosition;
+        // Calcula o deslocamento da câmera
+        float deltaX = Camera.main.transform.position.x - previousCameraPosition.x;
 
-        // Move a layer na proporção do fator de paralaxe
-        transform.position += new Vector3(deltaPosition.x * parallaxFactor, deltaPosition.y * parallaxFactor, 0);
+        // Atualiza a posição de cada camada
+        for (int i = 0; i < layers.Length; i++)
+        {
+            // Calcula o movimento da camada baseado no fator de paralaxe
+            float parallax = deltaX * (i * parallaxFactor + 1); // Ajuste do movimento conforme a camada
 
-        // Atualiza a posição anterior
-        previousPlayerPosition = player.position;
+            // Suaviza a posição da camada
+            Vector3 targetPosition = new Vector3(layers[i].position.x + parallax, layers[i].position.y, layers[i].position.z);
+            layers[i].position = Vector3.Lerp(layers[i].position, targetPosition, smoothing * Time.deltaTime);
+        }
+
+        // Atualiza a posição da câmera anterior para a atual
+        previousCameraPosition = Camera.main.transform.position;
     }
 }
