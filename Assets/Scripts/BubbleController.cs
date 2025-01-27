@@ -5,8 +5,6 @@ using TMPro; // Para TextMeshPro (se não usar TMP, remova esta linha)
 
 public class BubbleController : MonoBehaviour
 {
-    //[Header("Plataformas que devem aparecer ao coletar uma bolha")]
-    //public List<GameObject> platformsToEnable;
     public TextMeshProUGUI countdownText; // Referência ao Text no Canvas da bolha
     [SerializeField]
     private GameObject LightBackground;
@@ -22,13 +20,7 @@ public class BubbleController : MonoBehaviour
     }
 
     public void HandleBubbleCollection(string bubbleTag)
-    {
-        //Debug.Log("Bolha coletada: " + bubbleTag);
-        //BubbleController bubbleScript = GetComponent<BubbleController>();
-        //if (bubbleScript != null)
-        //{
-         //   bubbleScript.StartCountdown();
-        //}
+    {       
         StartCountdown();
         GameObject[] platforms = GameObject.FindGameObjectsWithTag(bubbleTag);
         foreach (GameObject platform in platforms)
@@ -41,9 +33,6 @@ public class BubbleController : MonoBehaviour
                     circleCollider.enabled = false;
                 }
             }
-
-            //platform.SetActive(isActive);
-            //Debug.Log($"Plataforma com tag {tag} agora está {(isActive ? "ativa" : "inativa")}");
         }
         if (bubbleTag == "DarkBubble")
         {
@@ -66,33 +55,14 @@ public class BubbleController : MonoBehaviour
     {
         LightBackground.SetActive(false);
         DarkBackground.SetActive(true);
-
-        //Debug.Log("Aplicando tema sombrio");
-        // Lógica para mudar o cenário para o tema sombrio
     }
 
     private void SetLightTheme()
     {
         LightBackground.SetActive(true);
         DarkBackground.SetActive(false);
-        //Debug.Log("Aplicando tema alegre");
-        // Lógica para mudar o cenário para o tema alegre
     }
 
-    /*
-     //código original criado pelo ChatGPT 
-     private void EnablePlatforms()
-     {
-        foreach (GameObject platform in platformsToEnable)
-        {
-            if (platform != null)
-            {
-                platform.SetActive(true);
-                Debug.Log($"Plataforma {platform.name} ativada.");
-            }
-        }
-     }
-     */
     private void SpawnNextBubble(string nextBubbleTag)
     {
         // Encontra a próxima bolha na cena e a ativa
@@ -101,7 +71,6 @@ public class BubbleController : MonoBehaviour
         {
             if (nextBubble != null)
             {
-
                 // Desabilita o componente BoxCollider2D se ele existir
                 CircleCollider2D circleCollider = nextBubble.GetComponent<CircleCollider2D>();
                 if (circleCollider != null)
@@ -156,18 +125,13 @@ public class BubbleController : MonoBehaviour
             if (nextPlatform != null)
             {
                 BoxCollider2D boxCollider = nextPlatform.GetComponent<BoxCollider2D>();
-                //if (boxCollider != null)
-               // {
                     boxCollider.enabled = true;
-                //}
+
 
                  
 
             SpriteRenderer spriteRenderer = nextPlatform.GetComponent<SpriteRenderer>();
-              //  if (spriteRenderer != null)
-               // {
                     spriteRenderer.enabled = true;
-               // }
            }
         }
     }

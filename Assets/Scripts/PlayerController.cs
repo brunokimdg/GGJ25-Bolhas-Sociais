@@ -111,4 +111,8 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
+
+    private void TakeDamage(int damage)
+    {
+    }
 }
